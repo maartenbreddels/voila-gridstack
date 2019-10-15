@@ -1,21 +1,12 @@
-{%- extends 'base.tpl' -%}
-{% from 'mathjax.tpl' import mathjax %}
+{%- extends 'lab/index.html.j2' -%}
+
+{%- block html_head_js -%}
+{%- endblock html_head_js -%}
+
 
 {% block html_head_css %}
+<link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
 <link href="http://gridstackjs.com/dist/gridstack.css" rel="stylesheet">
-
-{% if resources.theme == 'dark' %}
-    <link rel="stylesheet" type="text/css" href="{{resources.base_url}}voila/static/theme-dark.css"></link>
-{% else %}
-    <link rel="stylesheet" type="text/css" href="{{resources.base_url}}voila/static/theme-light.css"></link>
-{% endif %}
-
-{% for css in resources.inlining.css %}
-    <style type="text/css">
-    {{ css }}
-    </style>
-{% endfor %}
-
 {{ super() }}
 
 <style>
@@ -50,12 +41,8 @@
 {{ mathjax() }}
 {% endblock html_head_css %}
 
-{% block body %}
-{% if resources.theme == 'dark' %}
-<body class="jp-Notebook theme-dark" data-base-url="{{resources.base_url}}voila/">
-{% else %}
-<body class="jp-Notebook theme-light" data-base-url="{{resources.base_url}}voila/">
-{% endif %}
+{% block body_header %}
+{{ super() }}
 <section id="demo" class="voila-gridstack">
     <div class="container">
         <div class="row">
@@ -64,9 +51,10 @@
                 <hr class="star-light">
             </div>
         </div>
-
         <div class="grid-stack" data-gs-width="12" data-gs-animate="yes">
-                {{ super() }}
+{%- endblock body_header -%}
+
+{%- block body_footer -%}
                 <!-- <div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="4" data-gs-height="2">
                 <div class="grid-stack-item-content">
                 </div> -->
@@ -74,8 +62,8 @@
         </div>
     </div>
 </section>
-</body>
-{% endblock body %}
+{{ super() }}
+{%- endblock body_footer -%}
 
 {% block markdowncell scoped %}
 <div class="grid-stack-item" data-gs-width="12" data-gs-height="2" data-gs-auto-position='true'>
@@ -102,6 +90,7 @@
 {% endblock codecell %}
 
 {% block footer_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
@@ -127,6 +116,7 @@
         });
     });
 </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
 {{ super() }}
 
